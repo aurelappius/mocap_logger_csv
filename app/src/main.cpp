@@ -1,6 +1,6 @@
-#include "default_participant.h"
-#include "default_subscriber.h"
+#include "domain_participant.h"
 #include "sub_callback.h"
+#include "subscriber.h"
 
 #include <fstream>
 #include <iostream>
@@ -18,7 +18,7 @@ int main() {
   DefaultParticipant dp(0, "mocap_subscriber");
 
   // Create publisher with msg type
-  DDSSubscriber mocap_sub(idl_msg::MocapPubSubType(), &sub::mocap_msg,
+  DDSSubscriber mocap_sub(idl_msg::Mocap_msgPubSubType(), &sub::mocap_msg,
                           "mocap_srl_quad", dp.participant());
 
   // Initalize mocap_publisher
@@ -61,12 +61,12 @@ int main() {
 
     // outstream to file
     myLog << time << ",";
-    myLog << sub::mocap_msg.pose.position.x << ",";
-    myLog << sub::mocap_msg.pose.position.y << ",";
-    myLog << sub::mocap_msg.pose.position.z << " \n";
-    // myLog << sub::mocap_msg.pose.orientation_euler.roll << ",";
-    // myLog << sub::mocap_msg.pose.orientation_euler.pitch << ",";
-    // myLog << sub::mocap_msg.pose.orientation_euler.yaw << "\n";
+    myLog << sub::mocap_msg.position.x << ",";
+    myLog << sub::mocap_msg.position.y << ",";
+    myLog << sub::mocap_msg.position.z << " \n";
+    // myLog << sub::mocap_msg.orientation.roll << ",";
+    // myLog << sub::mocap_msg.orientation.pitch << ",";
+    // myLog << sub::mocap_msg.orientation.yaw << "\n";
 
     // std::cout << std::endl;
   }
