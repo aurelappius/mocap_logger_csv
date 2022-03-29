@@ -18,11 +18,10 @@ int main() {
   DefaultParticipant dp(0, "mocap_subscriber");
 
   // Create publisher with msg type
-  DDSSubscriber mocap_sub(idl_msg::Mocap_msgPubSubType(), &sub::mocap_msg,
+  cpp_msg::Mocap_msg msg;
+  DDSSubscriber mocap_sub(idl_msg::Mocap_msgPubSubType(), &msg,
                           "mocap_srl_quad", dp.participant());
 
-  // Initalize mocap_publisher
-  mocap_sub.init();
   //////////////////////////////////////////////////////////
 
   // create fstream
@@ -41,6 +40,7 @@ int main() {
       std::chrono::system_clock::now();
 
   for (;;) {
+    std::cout << "subscribing" << std::endl;
     mocap_sub.listener->wait_for_data();
     // create file
     std::chrono::time_point<std::chrono::system_clock> now =
@@ -59,11 +59,14 @@ int main() {
     // std::cout << "y: " << sub::mocap_msg.pose.position.y << std::endl;
     // std::cout << "z: " << sub::mocap_msg.pose.position.z << std::endl;
 
+    std::cout << time << "\t" << msg.position.x << "\t" << msg.position.y
+              << "\t" << msg.position.z << " \n";
+
     // outstream to file
-    myLog << time << ",";
-    myLog << sub::mocap_msg.position.x << ",";
-    myLog << sub::mocap_msg.position.y << ",";
-    myLog << sub::mocap_msg.position.z << " \n";
+    // myLog << time << ",";
+    // myLog << sub::mocap_msg.position.x << ",";
+    // myLog << sub::mocap_msg.position.y << ",";
+    // myLog << sub::mocap_msg.position.z << " \n";
     // myLog << sub::mocap_msg.orientation.roll << ",";
     // myLog << sub::mocap_msg.orientation.pitch << ",";
     // myLog << sub::mocap_msg.orientation.yaw << "\n";
